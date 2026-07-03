@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herbal Bliss · Cigarrillos Herbales Naturales</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --verde-oscuro: #1b4332;
+  --verde-medio: #2d6a4f;
+  --verde-salvia: #52b788;
+  --verde-palido: #d8f3dc;
+  --crema: #f8f4ec;
+  --crema-oscura: #ede8da;
+  --dorado: #c8a96e;
+  --texto: #1c1c1c;
+  --salmon: #e8927c;
+  --menta-color: #74c69d;
+  --lavanda: #b07fce;
+  --sombra: rgba(27,67,50,0.10);
+  --sombra-hover: rgba(27,67,50,0.20);
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Lato', sans-serif;
+  color: var(--texto);
+  background-color: var(--crema);
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(210,200,180,0.15) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 20%, rgba(180,200,190,0.10) 0%, transparent 60%);
+  overflow-x: hidden;
+}
+h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ===== TOP BANNER ===== */
+#top-banner {
+  background: var(--verde-oscuro);
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-family: 'Lato', sans-serif;
+  position: relative;
+  transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
+  max-height: 60px;
+  overflow: hidden;
+}
+#top-banner.hidden { max-height: 0; opacity: 0; padding: 0; }
+#top-banner .banner-close {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  cursor: pointer; font-size: 18px; opacity: 0.7;
+}
+#top-banner .banner-close:hover { opacity: 1; }
+
+/* ===== NAVBAR ===== */
+#navbar {
+  position: sticky; top: 0; z-index: 1000;
+  padding: 16px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.4s ease;
+  background: transparent;
+}
+#navbar.scrolled {
+  background: var(--crema);
+  box-shadow: 0 2px 20px var(--sombra);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; color: var(--verde-oscuro); font-weight: 700;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'Lato', sans-serif; font-size: 14px;
+  color: var(--texto); position: relative; padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 1.5px; background: var(--verde-oscuro);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--verde-oscuro); color: white;
+  padding: 10px 20px; border-radius: 50px;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 0.3s ease; border: none;
+}
+.nav-cta:hover { background: var(--verde-medio); transform: translateY(-2px); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-cart-btn {
+  position: relative; cursor: pointer; background: none; border: none;
+  padding: 4px; display: flex;
+}
+.cart-badge {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--salmon); color: white;
+  font-size: 10px; font-weight: 700;
+  width: 18px; height: 18px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.cart-badge.visible { opacity: 1; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none; padding: 4px;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: var(--verde-oscuro); transition: all 0.3s ease;
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.mobile-menu {
+  display: none; flex-direction: column;
+  background: var(--crema); padding: 0 40px;
+  max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  position: sticky; top: 72px; z-index: 999;
+  box-shadow: 0 4px 20px var(--sombra);
+}
+.mobile-menu.open { max-height: 400px; }
+.mobile-menu a {
+  display: block; padding: 14px 0;
+  border-bottom: 1px solid rgba(27,67,50,0.1);
+  font-size: 16px; color: var(--texto);
+}
+
+/* ===== WAVE DIVIDER ===== */
+.wave-divider { display: block; width: 100%; overflow: hidden; line-height: 0; }
+.wave-divider svg { display: block; width: 100%; }
+
+/* ===== HERO SECTION ===== */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 20px;
+  position: relative; overflow: hidden;
+  background: radial-gradient(ellipse at center, rgba(216,243,220,0.4) 0%, var(--crema) 70%);
+}
+.hero-decorations {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.hero-deco { position: absolute; opacity: 0.07; color: var(--verde-oscuro); }
+.hero-deco-1 { top: 5%; left: -2%; font-size: 200px; transform: rotate(-20deg); }
+.hero-deco-2 { bottom: 5%; right: -2%; font-size: 180px; transform: rotate(15deg); }
+.hero-deco-3 { top: 30%; right: 5%; font-size: 120px; transform: rotate(30deg); }
+.hero-deco-4 { top: 20%; left: 8%; font-size: 80px; transform: rotate(-10deg); }
+.hero-content { position: relative; z-index: 2; max-width: 800px; }
+.hero-badge {
+  display: inline-flex; align-items: center;
+  background: var(--verde-palido); color: var(--verde-oscuro);
+  padding: 8px 20px; border-radius: 50px; font-size: 12px;
+  font-weight: 700; letter-spacing: 0.5px; margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+#hero h1 {
+  font-size: clamp(48px, 8vw, 88px);
+  font-weight: 900; color: var(--verde-oscuro);
+  line-height: 1.05; margin-bottom: 24px;
+  animation: fadeUp 0.7s ease 0.1s both;
+}
+#hero h1 em { font-style: italic; color: var(--verde-medio); }
+.hero-sub {
+  font-size: 18px; color: #4a4a4a; max-width: 560px;
+  margin: 0 auto 40px; line-height: 1.7;
+  animation: fadeUp 0.7s ease 0.2s both;
+}
+.hero-buttons {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; flex-wrap: wrap; margin-bottom: 48px;
+  animation: fadeUp 0.7s ease 0.3s both;
+}
+.btn-primary {
+  background: var(--verde-oscuro); color: white;
+  padding: 14px 32px; border-radius: 50px;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 15px;
+  border: 2px solid var(--verde-oscuro); cursor: pointer;
+  transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: var(--verde-medio); border-color: var(--verde-medio); transform: translateY(-2px); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-secondary {
+  background: transparent; color: var(--verde-oscuro);
+  padding: 14px 32px; border-radius: 50px;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 15px;
+  border: 2px solid var(--verde-oscuro); cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-secondary:hover { background: var(--verde-oscuro); color: white; }
+.hero-mini-badges {
+  display: flex; align-items: center; justify-content: center;
+  gap: 24px; flex-wrap: wrap;
+  animation: fadeUp 0.7s ease 0.4s both;
+}
+.hero-mini-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--verde-medio); font-weight: 700;
+}
+.scroll-indicator {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== BENEFITS STRIP ===== */
+#benefits {
+  padding: 80px 40px;
+  background: white;
+}
+.section-title {
+  text-align: center;
+  font-size: clamp(32px, 4vw, 48px);
+  color: var(--verde-oscuro); margin-bottom: 8px;
+}
+.section-subtitle {
+  text-align: center; color: #666; font-size: 16px;
+  margin-bottom: 60px; max-width: 500px; margin-left: auto; margin-right: auto;
+}
+.section-title-line {
+  width: 60px; height: 2px; background: var(--dorado);
+  margin: 12px auto 40px;
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px; max-width: 1100px; margin: 0 auto;
+}
+.benefit-item {
+  text-align: center; padding: 32px 24px;
+  border-radius: 20px; background: var(--crema);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.benefit-item:hover { transform: translateY(-6px); box-shadow: 0 12px 40px var(--sombra); }
+.benefit-icon {
+  width: 56px; height: 56px; margin: 0 auto 20px;
+  background: var(--verde-palido); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--verde-medio);
+}
+.benefit-item h3 { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 8px; color: var(--verde-oscuro); }
+.benefit-item p { font-size: 14px; color: #666; line-height: 1.6; }
+
+/* ===== PRODUCTS SECTION ===== */
+#sabores {
+  padding: 80px 40px;
+  background: var(--crema);
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px; max-width: 1100px; margin: 0 auto;
+}
+.product-card {
+  background: white; border-radius: 24px;
+  overflow: hidden; box-shadow: 0 4px 24px var(--sombra);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: flex; flex-direction: column;
+}
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px var(--sombra-hover); }
+.product-card-header { height: 10px; }
+.product-card-body { padding: 32px; flex: 1; display: flex; flex-direction: column; }
+.product-icon-wrap {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin-bottom: 20px;
+}
+.product-name {
+  font-family: 'Playfair Display', serif; font-size: 28px;
+  color: var(--verde-oscuro); margin-bottom: 4px;
+}
+.product-ingredients {
+  font-size: 13px; color: #888; margin-bottom: 12px; letter-spacing: 0.5px;
+}
+.intensity-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 14px; border-radius: 50px;
+  font-size: 12px; font-weight: 700; margin-bottom: 16px;
+}
+.product-desc {
+  font-size: 14px; color: #555; line-height: 1.7;
+  margin-bottom: 24px; flex: 1;
+}
+.product-selector {
+  display: flex; gap: 8px; margin-bottom: 16px;
+}
+.selector-btn {
+  flex: 1; padding: 10px; border: 2px solid var(--verde-palido);
+  background: white; border-radius: 12px; cursor: pointer;
+  font-size: 13px; font-weight: 700; color: #666;
+  transition: all 0.3s ease;
+}
+.selector-btn.active {
+  border-color: var(--verde-oscuro); background: var(--verde-palido);
+  color: var(--verde-oscuro);
+}
+.product-price {
+  font-family: 'Playfair Display', serif; font-size: 32px;
+  color: var(--verde-oscuro); margin-bottom: 16px; font-weight: 700;
+}
+.add-to-cart-btn {
+  width: 100%; padding: 14px; border-radius: 50px;
+  background: var(--verde-oscuro); color: white;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 14px;
+  border: none; cursor: pointer; transition: all 0.3s ease;
+}
+.add-to-cart-btn:hover { background: var(--verde-medio); }
+.add-to-cart-btn.added { background: var(--verde-salvia); }
+.add-to-cart-btn:active { transform: scale(0.97); }
+
+/* ===== PRICING SECTION ===== */
+#precios {
+  padding: 80px 40px;
+  background: var(--crema-oscura);
+}
+.pricing-note {
+  display: inline-block;
+  background: var(--verde-oscuro); color: white;
+  padding: 10px 24px; border-radius: 50px;
+  font-size: 13px; font-weight: 700; margin: 0 auto 48px;
+  text-align: center;
+}
+.pricing-note-wrap { text-align: center; }
+.pricing-blocks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px; max-width: 1100px; margin: 0 auto;
+}
+.pricing-card {
+  background: white; border-radius: 24px;
+  overflow: hidden; box-shadow: 0 4px 24px var(--sombra);
+}
+.pricing-card-header {
+  background: var(--verde-oscuro); color: white;
+  padding: 20px 28px;
+}
+.pricing-card-header h3 { font-size: 18px; margin-bottom: 4px; }
+.pricing-card-header p { font-size: 13px; opacity: 0.8; }
+.pricing-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.pricing-table td {
+  padding: 12px 12px; font-size: 13px;
+  border-bottom: 1px solid rgba(27,67,50,0.07);
+  vertical-align: middle; overflow: hidden;
+}
+.pricing-table td:first-child { color: #555; width: 42%; }
+.pricing-table td:nth-child(2) { width: 22%; white-space: nowrap; }
+.pricing-table td:nth-child(3) { width: 20%; text-align: center; }
+.pricing-table td:last-child { text-align: right; width: 16%; }
+.pricing-table tr:last-child td { border-bottom: none; }
+.pricing-table .price-col {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  color: var(--verde-oscuro); font-weight: 700;
+}
+.badge-envio-gratis {
+  display: inline-block; background: var(--verde-palido);
+  color: var(--verde-oscuro); padding: 2px 7px; border-radius: 50px;
+  font-size: 9px; font-weight: 700; white-space: nowrap;
+}
+.badge-mejor-precio {
+  display: inline-block; background: var(--dorado);
+  color: white; padding: 2px 7px; border-radius: 50px;
+  font-size: 9px; font-weight: 700; white-space: nowrap;
+}
+.pricing-add-btn {
+  padding: 5px 10px; border-radius: 50px; border: 2px solid var(--verde-oscuro);
+  background: transparent; color: var(--verde-oscuro);
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  transition: all 0.3s ease; white-space: nowrap;
+}
+.pricing-add-btn:hover { background: var(--verde-oscuro); color: white; }
+
+/* ===== HOW IT WORKS ===== */
+#proceso {
+  padding: 80px 40px;
+  background: white;
+}
+.steps-container {
+  display: flex; align-items: flex-start; justify-content: center;
+  gap: 0; max-width: 1000px; margin: 0 auto;
+  position: relative;
+}
+.steps-container::before {
+  content: '';
+  position: absolute; top: 36px; left: 10%; right: 10%;
+  height: 2px; background: var(--verde-palido);
+  z-index: 0;
+}
+.step {
+  flex: 1; text-align: center; padding: 0 16px;
+  position: relative; z-index: 1;
+}
+.step-number {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--verde-oscuro); color: white;
+  font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px; border: 4px solid white;
+  box-shadow: 0 4px 16px var(--sombra);
+}
+.step h3 { font-size: 16px; color: var(--verde-oscuro); margin-bottom: 8px; }
+.step p { font-size: 13px; color: #666; line-height: 1.6; }
+
+/* ===== FAQ ===== */
+#faq {
+  padding: 80px 40px;
+  background: var(--crema);
+}
+.faq-container { max-width: 720px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid rgba(27,67,50,0.15);
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%; text-align: left; padding: 20px 0;
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+}
+.faq-question-text {
+  font-family: 'Playfair Display', serif; font-size: 17px;
+  color: var(--verde-oscuro); text-align: left;
+}
+.faq-icon {
+  flex-shrink: 0; width: 28px; height: 28px;
+  background: var(--verde-palido); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--verde-oscuro); transition: transform 0.3s ease;
+  font-size: 18px; line-height: 1;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0;
+}
+.faq-item.open .faq-answer { max-height: 200px; padding-bottom: 20px; }
+.faq-answer p { font-size: 15px; color: #555; line-height: 1.7; }
+
+/* ===== TESTIMONIALS ===== */
+#testimonios {
+  padding: 80px 40px;
+  background: var(--verde-oscuro);
+}
+#testimonios .section-title { color: white; }
+#testimonios .section-title-line { background: var(--dorado); }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; max-width: 1000px; margin: 0 auto;
+}
+.testimonial-card {
+  background: rgba(255,255,255,0.10); border-radius: 20px;
+  padding: 28px; backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: transform 0.3s ease;
+}
+.testimonial-card:hover { transform: translateY(-4px); }
+.stars { color: var(--dorado); font-size: 16px; margin-bottom: 12px; }
+.testimonial-card p { color: rgba(255,255,255,0.90); font-size: 15px; line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+.testimonial-author { color: var(--verde-salvia); font-size: 13px; font-weight: 700; }
+
+/* ===== CTA FINAL ===== */
+#contacto {
+  padding: 100px 40px;
+  background: var(--crema);
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-deco { position: absolute; opacity: 0.05; font-size: 200px; color: var(--verde-oscuro); pointer-events: none; }
+.cta-deco-1 { top: -40px; left: -40px; }
+.cta-deco-2 { bottom: -40px; right: -40px; transform: rotate(180deg); }
+#contacto h2 { font-size: clamp(36px, 5vw, 56px); color: var(--verde-oscuro); margin-bottom: 16px; }
+#contacto p { font-size: 17px; color: #555; max-width: 500px; margin: 0 auto 40px; line-height: 1.7; }
+.cta-wa-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--verde-oscuro); color: white;
+  padding: 18px 40px; border-radius: 50px;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 16px;
+  border: none; cursor: pointer; transition: all 0.3s ease;
+  text-decoration: none;
+}
+.cta-wa-btn:hover { background: var(--verde-medio); transform: translateY(-3px); box-shadow: 0 12px 40px var(--sombra-hover); }
+.cta-hours { font-size: 13px; color: #888; margin-top: 16px; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--verde-oscuro); color: white;
+  padding: 60px 40px 24px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px; max-width: 1100px; margin: 0 auto 40px;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.footer-tagline { font-size: 13px; opacity: 0.7; margin-bottom: 16px; }
+.footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; opacity: 0.5; letter-spacing: 1px; text-transform: uppercase; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a { font-size: 14px; opacity: 0.8; transition: opacity 0.3s; }
+.footer-links a:hover { opacity: 1; }
+.footer-social { display: flex; gap: 12px; margin-top: 8px; }
+.social-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+  color: white; transition: all 0.3s ease; cursor: pointer;
+}
+.social-btn:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+.footer-divider { border-color: rgba(255,255,255,0.1); margin: 0 0 20px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+.footer-bottom { text-align: center; font-size: 13px; opacity: 0.5; }
+
+/* ===== CART PANEL ===== */
+#cart-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  z-index: 2000; opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+#cart-overlay.open { opacity: 1; pointer-events: all; }
+#cart-panel {
+  position: fixed; top: 0; right: 0; height: 100vh;
+  width: 380px; background: var(--crema);
+  z-index: 2001; transform: translateX(100%);
+  transition: transform 0.35s ease;
+  display: flex; flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+}
+#cart-panel.open { transform: translateX(0); }
+.cart-header {
+  padding: 24px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(27,67,50,0.1);
+}
+.cart-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--verde-oscuro); }
+.cart-header-actions { display: flex; gap: 12px; align-items: center; }
+.cart-clear-btn {
+  font-size: 11px; color: #888; background: none; border: none; cursor: pointer; text-decoration: underline;
+}
+.cart-close-btn {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--crema-oscura);
+  border: none; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
+  color: var(--texto); transition: all 0.3s ease;
+}
+.cart-close-btn:hover { background: var(--verde-palido); }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+.cart-item {
+  display: flex; gap: 12px; padding: 16px 0;
+  border-bottom: 1px solid rgba(27,67,50,0.08);
+}
+.cart-item-info { flex: 1; }
+.cart-item-name { font-size: 14px; font-weight: 700; color: var(--verde-oscuro); margin-bottom: 2px; }
+.cart-item-sabor { font-size: 12px; color: #888; margin-bottom: 8px; }
+.cart-item-controls { display: flex; align-items: center; gap: 8px; }
+.qty-btn {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--verde-palido); border: none; cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
+  color: var(--verde-oscuro); transition: all 0.2s ease;
+}
+.qty-btn:hover { background: var(--verde-salvia); color: white; }
+.qty-num { font-weight: 700; font-size: 14px; min-width: 24px; text-align: center; }
+.cart-item-price-col { text-align: right; }
+.cart-item-price { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--verde-oscuro); font-weight: 700; }
+.cart-item-delete { background: none; border: none; cursor: pointer; color: #bbb; font-size: 18px; margin-top: 4px; transition: color 0.2s; }
+.cart-item-delete:hover { color: var(--salmon); }
+.cart-empty {
+  text-align: center; padding: 60px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.cart-empty p { color: #888; font-size: 15px; }
+.cart-empty-btn {
+  padding: 10px 24px; border-radius: 50px; background: var(--verde-oscuro);
+  color: white; border: none; cursor: pointer; font-weight: 700; font-size: 14px;
+  transition: all 0.3s ease;
+}
+.cart-empty-btn:hover { background: var(--verde-medio); }
+.cart-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(27,67,50,0.1);
+}
+.cart-total {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.cart-total-label { font-size: 14px; color: #555; }
+.cart-total-amount { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--verde-oscuro); font-weight: 700; }
+.cart-payment-note { font-size: 11px; color: #888; margin-bottom: 16px; }
+.cart-checkout-btn {
+  width: 100%; padding: 16px; border-radius: 50px;
+  background: var(--verde-oscuro); color: white;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 15px;
+  border: none; cursor: pointer; transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.cart-checkout-btn:hover { background: var(--verde-medio); transform: translateY(-2px); }
+
+/* ===== FLOATING BUTTONS ===== */
+#floating-cart {
+  position: fixed; bottom: 28px; right: 28px; z-index: 1500;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--verde-oscuro); color: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(27,67,50,0.4);
+  border: none; transition: all 0.3s ease;
+}
+#floating-cart:hover { background: var(--verde-medio); transform: scale(1.1); }
+#floating-cart .cart-badge {
+  position: absolute; top: -4px; right: -4px;
+}
+#floating-wa {
+  position: fixed; bottom: 28px; left: 28px; z-index: 1500;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  border: none; transition: all 0.3s ease; text-decoration: none;
+}
+#floating-wa:hover { background: #20ba5a; transform: scale(1.1); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #navbar { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .nav-cta { display: none; }
+  .mobile-menu { display: flex; padding: 0 20px; }
+  #hero { padding: 60px 20px; }
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .hero-mini-badges { gap: 12px; }
+  #benefits, #sabores, #precios, #proceso, #faq, #testimonios, #contacto { padding: 60px 20px; }
+  .steps-container { flex-direction: column; align-items: center; }
+  .steps-container::before { display: none; }
+  .step { padding: 0 0 32px; max-width: 300px; }
+  #cart-panel { width: 100vw; }
+  footer { padding: 40px 20px 20px; }
+  .pricing-table td { padding: 12px 16px; font-size: 13px; }
+}
+@media (max-width: 480px) {
+  .products-grid, .testimonials-grid { grid-template-columns: 1fr; }
+  .pricing-blocks { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BANNER ===== -->
+<div id="top-banner">
+  🌿 Envío gratis a partir de ciertos volúmenes · Sin tabaco · Sin nicotina · 100% natural
+  <span class="banner-close" onclick="closeBanner()">×</span>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2C8 2 4 6 4 10c0 6 8 12 8 12s8-6 8-12c0-4-4-8-8-8z" fill="#2d6a4f" opacity="0.3"/>
+      <path d="M12 2c0 0-2 4-2 8s2 6 2 6 2-2 2-6-2-8-2-8z" fill="#1b4332"/>
+      <path d="M6 8c0 0 3 1 5 3" stroke="#2d6a4f" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    Herbal Bliss
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Inicio</a></li>
+    <li><a href="#benefits">Nosotros</a></li>
+    <li><a href="#sabores">Sabores</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cart-btn" onclick="toggleCart()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4332" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span class="cart-badge" id="navbar-cart-badge">0</span>
+    </button>
+    <a href="https://wa.me/5491170625097?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20Herbal%20Bliss%20%F0%9F%8C%BF" target="_blank" class="nav-cta">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.506 3.93 1.395 5.604L0 24l6.545-1.369A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.017-1.374l-.36-.214-3.732.979.997-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+      Pedir por WhatsApp
+    </a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#hero" onclick="closeMenu()">Inicio</a>
+  <a href="#benefits" onclick="closeMenu()">Nosotros</a>
+  <a href="#sabores" onclick="closeMenu()">Sabores</a>
+  <a href="#precios" onclick="closeMenu()">Precios</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+  <a href="#contacto" onclick="closeMenu()">Contacto</a>
+  <a href="https://wa.me/5491170625097?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20Herbal%20Bliss%20%F0%9F%8C%BF" target="_blank" onclick="closeMenu()">Pedir por WhatsApp 💬</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-decorations">
+    <div class="hero-deco hero-deco-1">🌿</div>
+    <div class="hero-deco hero-deco-2">🌸</div>
+    <div class="hero-deco hero-deco-3">🍃</div>
+    <div class="hero-deco hero-deco-4">🌺</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ 100% Natural · Sin Tabaco · Sin Nicotina</div>
+    <h1>Descubrí el placer <em>herbal</em></h1>
+    <p class="hero-sub">Cigarrillos herbales artesanales elaborados con flores y plantas seleccionadas. Sin tabaco, sin nicotina. Solo naturaleza pura.</p>
+    <div class="hero-buttons">
+      <a href="#sabores" class="btn-primary">Ver productos</a>
+      <a href="#proceso" class="btn-secondary">¿Cómo funcionan?</a>
+    </div>
+    <div class="hero-mini-badges">
+      <div class="hero-mini-badge">🌸 Flores naturales</div>
+      <div class="hero-mini-badge">🌿 Sin químicos</div>
+      <div class="hero-mini-badge">✦ Elaboración artesanal</div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2d6a4f" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;background:#f8f4ec;">
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="white"/>
+  </svg>
+</div>
+
+<!-- ===== BENEFITS ===== -->
+<section id="benefits">
+  <h2 class="section-title reveal">Por qué Herbal Bliss</h2>
+  <div class="section-title-line"></div>
+  <div class="benefits-grid">
+    <div class="benefit-item reveal">
+      <div class="benefit-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <h3>Sin tabaco ni nicotina</h3>
+      <p>Elaborados 100% con plantas y flores seleccionadas. Cero dependencia.</p>
+    </div>
+    <div class="benefit-item reveal reveal-delay-1">
+      <div class="benefit-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 110 20 10 10 0 010-20z"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <h3>Ritual consciente</h3>
+      <p>Reemplazá el cigarro sin dejar el gesto. Disfrutá el momento.</p>
+    </div>
+    <div class="benefit-item reveal reveal-delay-2">
+      <div class="benefit-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L8 8H2l5 5-2 7 7-4 7 4-2-7 5-5h-6z"/></svg>
+      </div>
+      <h3>Aromas naturales</h3>
+      <p>Jazmín, rosas, menta y lavanda cuidadosamente seleccionados.</p>
+    </div>
+    <div class="benefit-item reveal reveal-delay-3">
+      <div class="benefit-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3M9 21h10a2 2 0 002-2v-8a2 2 0 00-2-2H9a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+      </div>
+      <h3>Envíos a todo el país</h3>
+      <p>Despacho rápido a toda Argentina con seguimiento de tu pedido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;background:white;">
+    <path d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="#f8f4ec"/>
+  </svg>
+</div>
+
+<!-- ===== SABORES ===== -->
+<section id="sabores">
+  <h2 class="section-title reveal">Nuestros sabores</h2>
+  <div class="section-title-line"></div>
+  <p class="section-subtitle reveal">Tres experiencias herbales únicas, todas sin tabaco ni nicotina.</p>
+  <div class="products-grid">
+
+    <!-- ORIGINAL -->
+    <div class="product-card reveal">
+      <div class="product-card-header" style="background:#e8927c;"></div>
+      <div class="product-card-body">
+        <div class="product-icon-wrap" style="background:rgba(232,146,124,0.15);">🌹</div>
+        <div class="product-name">Original</div>
+        <div class="product-ingredients">Jazmín · Rosas</div>
+        <span class="intensity-badge" style="background:rgba(232,146,124,0.2);color:#b8523c;">Intenso 🔥</span>
+        <p class="product-desc">Una experiencia floral profunda. El jazmín envuelve los sentidos mientras las rosas aportan suavidad y dulzura. Ideal para quienes buscan una alternativa intensa y aromática.</p>
+        <div class="product-selector">
+          <button class="selector-btn active" onclick="selectSize(this, 'original', 'x10')">Caja x10</button>
+          <button class="selector-btn" onclick="selectSize(this, 'original', 'x100')">Caja x100</button>
+        </div>
+        <div class="product-price" id="price-original">$3.500</div>
+        <button class="add-to-cart-btn" onclick="addToCart('original', 'Original', 'Jazmín · Rosas')">Agregar al carrito</button>
+      </div>
+    </div>
+
+    <!-- MENTHOL -->
+    <div class="product-card reveal reveal-delay-1">
+      <div class="product-card-header" style="background:#74c69d;"></div>
+      <div class="product-card-body">
+        <div class="product-icon-wrap" style="background:rgba(116,198,157,0.15);">🌿</div>
+        <div class="product-name">Menthol</div>
+        <div class="product-ingredients">Menta pura</div>
+        <span class="intensity-badge" style="background:rgba(116,198,157,0.2);color:#2d7a54;">Refrescante ❄️</span>
+        <p class="product-desc">Un soplo de aire fresco en cada calada. La menta pura brinda una frescura limpia y revitalizante. Perfecto para el verano o como pausa refrescante durante el día.</p>
+        <div class="product-selector">
+          <button class="selector-btn active" onclick="selectSize(this, 'menthol', 'x10')">Caja x10</button>
+          <button class="selector-btn" onclick="selectSize(this, 'menthol', 'x100')">Caja x100</button>
+        </div>
+        <div class="product-price" id="price-menthol">$3.500</div>
+        <button class="add-to-cart-btn" onclick="addToCart('menthol', 'Menthol', 'Menta pura')">Agregar al carrito</button>
+      </div>
+    </div>
+
+    <!-- BLACK -->
+    <div class="product-card reveal reveal-delay-2">
+      <div class="product-card-header" style="background:#b07fce;"></div>
+      <div class="product-card-body">
+        <div class="product-icon-wrap" style="background:rgba(176,127,206,0.15);">🌸</div>
+        <div class="product-name">Black</div>
+        <div class="product-ingredients">Rosas · Menta · Lavanda</div>
+        <span class="intensity-badge" style="background:rgba(176,127,206,0.2);color:#7a4f9e;">Equilibrado ✦</span>
+        <p class="product-desc">La fusión perfecta. Rosas, menta y lavanda se combinan en un balance sofisticado. Una experiencia compleja y armoniosa para los paladares más exigentes.</p>
+        <div class="product-selector">
+          <button class="selector-btn active" onclick="selectSize(this, 'black', 'x10')">Caja x10</button>
+          <button class="selector-btn" onclick="selectSize(this, 'black', 'x100')">Caja x100</button>
+        </div>
+        <div class="product-price" id="price-black">$3.500</div>
+        <button class="add-to-cart-btn" onclick="addToCart('black', 'Black', 'Rosas · Menta · Lavanda')">Agregar al carrito</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;background:#f8f4ec;">
+    <path d="M0,20 C480,60 960,0 1440,40 L1440,60 L0,60 Z" fill="#ede8da"/>
+  </svg>
+</div>
+
+<!-- ===== PRICING ===== -->
+<section id="precios">
+  <h2 class="section-title reveal">Lista de precios</h2>
+  <div class="section-title-line"></div>
+  <p class="section-subtitle reveal">Mayores cantidades = mejores precios. Consultá por pedidos personalizados.</p>
+  <div class="pricing-note-wrap reveal">
+    <span class="pricing-note">💳 Todos los métodos de pago se coordinan por WhatsApp</span>
+  </div>
+  <div class="pricing-blocks">
+
+    <!-- BLOQUE 1: x10 -->
+    <div class="pricing-card reveal">
+      <div class="pricing-card-header">
+        <h3>Caja Herbal x10</h3>
+        <p>Cigarrillos herbales</p>
+      </div>
+      <table class="pricing-table">
+        <tr>
+          <td>1 unidad</td>
+          <td><span class="price-col">$3.500</span></td>
+          <td>—</td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x10', '1u', 3500)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 25u</td>
+          <td><span class="price-col">$3.000</span></td>
+          <td>—</td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x10', '25u+', 3000)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 50u</td>
+          <td><span class="price-col">$3.000</span></td>
+          <td><span class="badge-envio-gratis">ENVÍO GRATIS</span></td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x10', '50u+', 3000)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 100u</td>
+          <td><span class="price-col">$2.500</span></td>
+          <td><span class="badge-mejor-precio">MEJOR PRECIO</span></td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x10', '100u+', 2500)">+ Agregar</button></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- BLOQUE 2: x100 -->
+    <div class="pricing-card reveal reveal-delay-1">
+      <div class="pricing-card-header">
+        <h3>Caja Herbal x100</h3>
+        <p>Cigarrillos herbales</p>
+      </div>
+      <table class="pricing-table">
+        <tr>
+          <td>1 unidad</td>
+          <td><span class="price-col">$29.900</span></td>
+          <td>—</td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x100', '1u', 29900)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 3u</td>
+          <td><span class="price-col">$24.900</span></td>
+          <td>—</td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x100', '3u+', 24900)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 5u</td>
+          <td><span class="price-col">$24.900</span></td>
+          <td><span class="badge-envio-gratis">ENVÍO GRATIS</span></td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x100', '5u+', 24900)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 10u</td>
+          <td><span class="price-col">$21.900</span></td>
+          <td><span class="badge-mejor-precio">MEJOR PRECIO</span></td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Caja Herbal x100', '10u+', 21900)">+ Agregar</button></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- BLOQUE 3: Blend -->
+    <div class="pricing-card reveal reveal-delay-2">
+      <div class="pricing-card-header">
+        <h3>Blend Herbal 30 gr</h3>
+        <p>Para armar tus propios blends</p>
+      </div>
+      <table class="pricing-table">
+        <tr>
+          <td>1 unidad</td>
+          <td><span class="price-col">$5.900</span></td>
+          <td>—</td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Blend Herbal 30gr', '1u', 5900)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 6u</td>
+          <td><span class="price-col">$4.900</span></td>
+          <td>—</td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Blend Herbal 30gr', '6u+', 4900)">+ Agregar</button></td>
+        </tr>
+        <tr>
+          <td>A partir de 12u</td>
+          <td><span class="price-col">$4.500</span></td>
+          <td><span class="badge-mejor-precio">MEJOR PRECIO</span></td>
+          <td><button class="pricing-add-btn" onclick="addPricingToCart('Blend Herbal 30gr', '12u+', 4500)">+ Agregar</button></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;background:#ede8da;">
+    <path d="M0,40 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="white"/>
+  </svg>
+</div>
+
+<!-- ===== PROCESO ===== -->
+<section id="proceso">
+  <h2 class="section-title reveal">¿Cómo funciona?</h2>
+  <div class="section-title-line"></div>
+  <p class="section-subtitle reveal">Tu pedido en 4 pasos simples.</p>
+  <div class="steps-container">
+    <div class="step reveal">
+      <div class="step-number">1</div>
+      <h3>Elegí tu sabor</h3>
+      <p>Explorá nuestros 3 sabores y seleccioná el que más te atraiga.</p>
+    </div>
+    <div class="step reveal reveal-delay-1">
+      <div class="step-number">2</div>
+      <h3>Armá tu pedido</h3>
+      <p>Agregá productos al carrito y elegí la cantidad que necesitás.</p>
+    </div>
+    <div class="step reveal reveal-delay-2">
+      <div class="step-number">3</div>
+      <h3>Contactanos por WhatsApp</h3>
+      <p>Te enviamos el resumen y coordinamos el método de pago.</p>
+    </div>
+    <div class="step reveal reveal-delay-3">
+      <div class="step-number">4</div>
+      <h3>Recibís en tu domicilio</h3>
+      <p>Enviamos a todo el país con seguimiento incluido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;background:white;">
+    <path d="M0,30 C480,60 960,0 1440,30 L1440,60 L0,60 Z" fill="#f8f4ec"/>
+  </svg>
+</div>
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <h2 class="section-title reveal">Preguntas frecuentes</h2>
+  <div class="section-title-line"></div>
+  <div class="faq-container">
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-question-text">¿Contienen tabaco o nicotina?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>No. Nuestros cigarrillos están elaborados 100% con plantas y flores naturales, sin ningún componente de tabaco ni nicotina.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-question-text">¿Qué métodos de pago aceptan?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Aceptamos efectivo, transferencia bancaria, Mercado Pago y más. Todos los métodos de pago se coordinan directamente por WhatsApp para que puedas elegir el que más te convenga.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-question-text">¿Hacen envíos a todo el país?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Sí, enviamos a toda Argentina. El envío es gratuito a partir de ciertos volúmenes de compra detallados en la lista de precios.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-question-text">¿Cuánto tarda el envío?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Los pedidos se despachan dentro de las 24–48hs hábiles de confirmado el pago. El tiempo de entrega varía según la zona, generalmente entre 2 y 7 días hábiles.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-question-text">¿Puedo mezclar sabores en un pedido?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>¡Por supuesto! Podés combinar sabores en un mismo pedido. Consultanos por WhatsApp y armamos el pack ideal para vos.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span class="faq-question-text">¿Son legales?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>Sí, completamente. Al no contener tabaco ni nicotina, son productos herbales de libre venta en Argentina.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;background:#f8f4ec;">
+    <path d="M0,20 C360,60 1080,0 1440,40 L1440,60 L0,60 Z" fill="#1b4332"/>
+  </svg>
+</div>
+
+<!-- ===== TESTIMONIOS ===== -->
+<section id="testimonios">
+  <h2 class="section-title reveal">Lo que dicen nuestros clientes</h2>
+  <div class="section-title-line"></div>
+  <div class="testimonials-grid" style="margin-top:40px;">
+    <div class="testimonial-card reveal">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Increíble. Los usé para dejar el tabaco y funcionó mejor de lo que esperaba. El Original es mi favorito."</p>
+      <div class="testimonial-author">— Valentina M., Buenos Aires</div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-1">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"El Menthol es adictivo en el buen sentido. Me encanta la frescura y saber que no me estoy haciendo daño."</p>
+      <div class="testimonial-author">— Lucas R., Córdoba</div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Compré el Black y quedé enamorado. El aroma a lavanda es increíble. Ya hice mi segundo pedido."</p>
+      <div class="testimonial-author">— Sofía T., Rosario</div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="height:60px;background:#1b4332;">
+    <path d="M0,30 C480,0 960,60 1440,30 L1440,60 L0,60 Z" fill="#f8f4ec"/>
+  </svg>
+</div>
+
+<!-- ===== CTA FINAL ===== -->
+<section id="contacto">
+  <div class="cta-deco cta-deco-1">🌿</div>
+  <div class="cta-deco cta-deco-2">🌿</div>
+  <h2 class="reveal">¿Listo para empezar?</h2>
+  <p class="reveal">Hacé tu pedido directamente por WhatsApp. Te respondemos rápido y te asesoramos sin compromiso.</p>
+  <a href="https://wa.me/5491170625097?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20Herbal%20Bliss%20%F0%9F%8C%BF" target="_blank" class="cta-wa-btn reveal">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.506 3.93 1.395 5.604L0 24l6.545-1.369A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.017-1.374l-.36-.214-3.732.979.997-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+    Chatear por WhatsApp ahora
+  </a>
+  <p class="cta-hours">Respondemos de lunes a sábado de 9 a 20 hs</p>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">🌿 Herbal Bliss</div>
+      <div class="footer-tagline">Naturaleza en cada calada.</div>
+      <a href="https://wa.me/5491170625097" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:14px;opacity:0.8;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.506 3.93 1.395 5.604L0 24l6.545-1.369A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.017-1.374l-.36-.214-3.732.979.997-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+        +54 9 11 7062-5097
+      </a>
+    </div>
+    <div class="footer-col">
+      <h4>Links rápidos</h4>
+      <ul class="footer-links">
+        <li><a href="#hero">Inicio</a></li>
+        <li><a href="#sabores">Sabores</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+
+  </div>
+  <hr class="footer-divider">
+  <p class="footer-bottom">© 2025 Herbal Bliss · Todos los derechos reservados · Elaborado con amor y plantas 🌿</p>
+</footer>
+
+<!-- ===== CART PANEL ===== -->
+<div id="cart-overlay" onclick="toggleCart()"></div>
+<div id="cart-panel">
+  <div class="cart-header">
+    <h3>Tu pedido 🌿</h3>
+    <div class="cart-header-actions">
+      <button class="cart-clear-btn" onclick="clearCart()">Vaciar carrito</button>
+      <button class="cart-close-btn" onclick="toggleCart()">×</button>
+    </div>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer" id="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-amount" id="cart-total-display">$0</span>
+    </div>
+    <p class="cart-payment-note">💳 El método de pago se coordina por WhatsApp</p>
+    <button class="cart-checkout-btn" onclick="checkoutWhatsApp()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.506 3.93 1.395 5.604L0 24l6.545-1.369A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.017-1.374l-.36-.214-3.732.979.997-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+      Confirmar pedido por WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- ===== FLOATING BUTTONS ===== -->
+<button id="floating-cart" onclick="toggleCart()">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+  </svg>
+  <span class="cart-badge" id="floating-cart-badge">0</span>
+</button>
+<a href="https://wa.me/5491170625097?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20Herbal%20Bliss%20%F0%9F%8C%BF" target="_blank" id="floating-wa">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.506 3.93 1.395 5.604L0 24l6.545-1.369A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.017-1.374l-.36-.214-3.732.979.997-3.648-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+</a>
+
+<script>
+// ===== STATE =====
+let cart = [];
+const productSizes = {
+  original: { x10: 3500, x100: 29900 },
+  menthol:  { x10: 3500, x100: 29900 },
+  black:    { x10: 3500, x100: 29900 }
+};
+const currentSize = { original: 'x10', menthol: 'x10', black: 'x10' };
+
+// ===== FORMAT PRICE =====
+function formatPrice(n) {
+  return '$' + n.toLocaleString('es-AR');
+}
+
+// ===== BANNER =====
+function closeBanner() {
+  document.getElementById('top-banner').classList.add('hidden');
+}
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 60) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+  if (window.scrollY > 80) document.getElementById('top-banner').classList.add('hidden');
+});
+
+// ===== MOBILE MENU =====
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ===== FAQ ACCORDION =====
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ===== PRODUCT SIZE SELECTOR =====
+function selectSize(btn, product, size) {
+  const parent = btn.closest('.product-card-body');
+  parent.querySelectorAll('.selector-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentSize[product] = size;
+  const price = productSizes[product][size];
+  document.getElementById('price-' + product).textContent = formatPrice(price);
+}
+
+// ===== CART =====
+function toggleCart() {
+  const overlay = document.getElementById('cart-overlay');
+  const panel = document.getElementById('cart-panel');
+  overlay.classList.toggle('open');
+  panel.classList.toggle('open');
+}
+
+function addToCart(id, name, sabor) {
+  const size = currentSize[id] || 'x10';
+  const price = productSizes[id][size];
+  const displayName = name + ' (' + (size === 'x10' ? 'Caja x10' : 'Caja x100') + ')';
+  const cartId = id + '-' + size;
+
+  const existing = cart.find(i => i.id === cartId);
+  if (existing) {
+    existing.cantidad++;
+  } else {
+    cart.push({ id: cartId, nombre: displayName, sabor, precio: price, cantidad: 1 });
+  }
+  updateCartUI();
+  animateBadge();
+
+  // Button feedback
+  const btns = document.querySelectorAll('.add-to-cart-btn');
+  btns.forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) {
+      b.textContent = '✓ Agregado al carrito';
+      b.classList.add('added');
+      setTimeout(() => { b.textContent = 'Agregar al carrito'; b.classList.remove('added'); }, 1500);
+    }
+  });
+}
+
+function addPricingToCart(name, range, price) {
+  const cartId = name.replace(/\s/g,'-') + '-' + range;
+  const existing = cart.find(i => i.id === cartId);
+  if (existing) { existing.cantidad++; }
+  else { cart.push({ id: cartId, nombre: name, sabor: range, precio: price, cantidad: 1 }); }
+  updateCartUI();
+  animateBadge();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.cantidad += delta;
+  if (item.cantidad <= 0) cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+}
+
+function clearCart() {
+  cart = [];
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const list = document.getElementById('cart-items-list');
+  const footer = document.getElementById('cart-footer');
+  const total = cart.reduce((sum, i) => sum + i.precio * i.cantidad, 0);
+  const totalItems = cart.reduce((sum, i) => sum + i.cantidad, 0);
+
+  // Badges
+  ['navbar-cart-badge','floating-cart-badge'].forEach(id => {
+    const el = document.getElementById(id);
+    el.textContent = totalItems;
+    el.classList.toggle('visible', totalItems > 0);
+  });
+
+  if (cart.length === 0) {
+    list.innerHTML = `
+      <div class="cart-empty">
+        <div style="font-size:48px;">🌿</div>
+        <p>Tu carrito está vacío</p>
+        <button class="cart-empty-btn" onclick="toggleCart();document.getElementById('sabores').scrollIntoView({behavior:'smooth'})">Ver productos</button>
+      </div>`;
+    footer.style.display = 'none';
+    return;
+  }
+
+  footer.style.display = 'block';
+  document.getElementById('cart-total-display').textContent = formatPrice(total);
+
+  list.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.nombre}</div>
+        <div class="cart-item-sabor">${item.sabor}</div>
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+          <span class="qty-num">${item.cantidad}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+        </div>
+      </div>
+      <div class="cart-item-price-col">
+        <div class="cart-item-price">${formatPrice(item.precio * item.cantidad)}</div>
+        <button class="cart-item-delete" onclick="removeFromCart('${item.id}')">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function animateBadge() {
+  ['navbar-cart-badge','floating-cart-badge'].forEach(id => {
+    const el = document.getElementById(id);
+    el.style.transform = 'scale(1.4)';
+    setTimeout(() => { el.style.transform = 'scale(1)'; }, 200);
+  });
+}
+
+function checkoutWhatsApp() {
+  if (cart.length === 0) return;
+  const total = cart.reduce((sum, i) => sum + i.precio * i.cantidad, 0);
+  let msg = 'Hola! Quiero hacer el siguiente pedido de Herbal Bliss\n\nDETALLE DEL PEDIDO:\n';
+  cart.forEach(i => { msg += `- ${i.nombre} x${i.cantidad} — ${formatPrice(i.precio * i.cantidad)}\n`; });
+  msg += `\nTOTAL: ${formatPrice(total)}\n\n¿Cuáles son las opciones de pago disponibles?`;
+  window.open('https://wa.me/5491170625097?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== INIT =====
+updateCartUI();
+</script>
+</body>
+</html>
